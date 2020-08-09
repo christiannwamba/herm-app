@@ -1,0 +1,31 @@
+{
+  "name": "app.new",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "node node_modules/next/dist/bin/next start -p $PORT"
+  },
+  "dependencies": {
+    "@apollo/react-hooks": "3.0.0",
+    "@apollo/react-ssr": "3.0.0",
+    "@auth0/nextjs-auth0": "^0.13.0",
+    "@chakra-ui/core": "^0.8.0",
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
+    "apollo-cache-inmemory": "1.6.3",
+    "apollo-client": "2.6.4",
+    "apollo-link-http": "1.5.15",
+    "dotenv": "^8.2.0",
+    "emotion-theming": "^10.0.27",
+    "graphql": "^14.0.2",
+    "graphql-tag": "2.10.1",
+    "next": "9.4.4",
+    "next-with-apollo": "^5.1.0",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-icons": "^3.10.0",
+    "request": "^2.88.2"
+  }
+}
