@@ -1,4 +1,4 @@
-import { Box, Text, CircularProgress, Flex } from '@chakra-ui/core';
+import { Box, Text, CircularProgress } from '@chakra-ui/core';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import React from 'react';
@@ -9,24 +9,25 @@ import ScheduleTweetForm from '../components/SchedulePostForm';
 
 import withApollo from 'lib/apollo';
 
-function Index({ me }) {
-  const USER_QUERY = gql`
-    {
-      user {
+function Feeds({ me }) {
+  const query = gql`
+    query getUser($name: String!) {
+      user(where: { username: { _eq: $name } }) {
         id
         username
-        scheduled_posts(order_by: { created_at: desc }) {
+        scheduled_posts (order_by: {schedule_for: desc}){
           id
           is_pending
           schedule_for
           text
-          user_id
         }
       }
     }
   `;
-  const { data, loading, refetch } = useQuery(USER_QUERY);
-  const [user] = data && data.user ? data.user : [{}];
+  const { data, loading, refetch } = useQuery(query, {
+    variables: { name: 'IamAFRO' },
+  });
+  const [user] = data && data.user ? data.user : [];
 
   return (
     <Layout me={me}>
@@ -44,15 +45,12 @@ function Index({ me }) {
             Scheduled Posts
           </Text>
           {loading ? (
-            <Flex justifyContent='center' padding='50px 0'>
-              <CircularProgress isIndeterminate color='pink'></CircularProgress>
-            </Flex>
+            <CircularProgress isIndeterminate color="pink"></CircularProgress>
           ) : (
             <Box marginTop='19px'>
-              {user &&
-                user.scheduled_posts.map((post) => (
-                  <PostCard me={me} post={post} key={post.id} />
-                ))}
+              {user.scheduled_posts.map((post) => (
+                <PostCard me={me} post={post} key={post.id} />
+              ))}
             </Box>
           )}
         </Box>
@@ -61,7 +59,7 @@ function Index({ me }) {
   );
 }
 
-Index.getInitialProps = async function (context) {
+Feeds.getInitialProps = async function (context) {
   const res = await fetch(`${process.env.BASE_URL}/api/me`, {
     headers: {
       cookie: context.req.headers.cookie,
@@ -81,4 +79,4 @@ Index.getInitialProps = async function (context) {
   return { me };
 };
 
-export default withApollo(Index);
+export default withApollo(Feeds);

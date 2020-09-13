@@ -3,7 +3,7 @@ import { Box } from '@chakra-ui/core';
 
 function Main({ children }) {
   return (
-    <Box paddingLeft="40px" paddingTop="40px">
+    <Box paddingLeft='40px' paddingTop='40px' width='100%'>
       {children}
     </Box>
   );

@@ -10,8 +10,6 @@ export default auth0.requireAuthentication(async function graphQL(req, res) {
       scope: ['openid', 'profile']
     });
 
-    console.log(accessToken)
-
     const headers = {
       // Attach token to header
       Authorization: `Bearer ${accessToken}`,

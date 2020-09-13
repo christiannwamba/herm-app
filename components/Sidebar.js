@@ -12,7 +12,7 @@ function Sidebar() {
       pl="30px"
       pr="30px"
     >
-      <NavItem Icon={FaRegListAlt}>Feeds</NavItem>
+      <NavItem Icon={FaRegListAlt} href="/">Feeds</NavItem>
       <NavItem Icon={FaRegClock}>Schedule</NavItem>
       <NavItem Icon={FaRegUser}>Account</NavItem>
     </Box>

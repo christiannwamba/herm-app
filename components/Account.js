@@ -14,7 +14,6 @@ const Account = () => {
   const { loading, error, data } = useQuery(ALL_ACCOUNTS_QUERY);
 
   if (error) {
-    console.log(error);
     return <div>Error</div>;
   }
 

@@ -3,6 +3,9 @@ import NextApp from 'next/app';
 import { ThemeProvider, CSSReset } from '@chakra-ui/core';
 import { theme } from '@chakra-ui/core';
 
+import 'react-nice-dates/build/style.css';
+
+
 const customIcons = {
   logo: {
     path: (
