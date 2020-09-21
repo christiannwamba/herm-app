@@ -5,7 +5,6 @@ export default async function (req, res) {
   try {
     const client = createClient(req, res);
     const result = await createPost(client, req.body);
-    console.log(result)
 
     schedulePost(client, result.data.insert_scheduled_post_one);
     res.send(result.data);
