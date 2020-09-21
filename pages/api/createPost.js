@@ -5,6 +5,7 @@ export default async function (req, res) {
   try {
     const client = createClient(req, res);
     const result = await createPost(client, req.body);
+    console.log(result)
 
     schedulePost(client, result.data.insert_scheduled_post_one);
     res.send(result.data);
@@ -33,40 +34,14 @@ async function createPost(client, body) {
   return result;
 }
 
-const createEventHeaders = async (client, userId) => {
-  const query = `
-  {
-    account_user(where: {user_id: {_eq: ${userId}}}) {
-      account {
-        access_token
-        access_token_secret
-      }
-    }
-  }
-  `;
-  const res = await makeRequest(`${process.env.APP_BASE_API}/v1/graphql`, {
-    query,
-  });
-  const { account_user } = res.data;
-  const {
-    account: { access_token, access_token_secret },
-  } = account_user[0];
-
-  return [
-    { name: 'access_token_key', value: access_token },
-    { name: 'access_token_secret', value: access_token_secret },
-  ];
-};
 
 const schedulePost = async (client, post) => {
-  const headers = await createEventHeaders(client, post.user_id);
   const data = {
     type: 'create_scheduled_event',
     args: {
       webhook: 'http://host.docker.internal:7071/api/postTweet',
       schedule_at: post.schedule_for,
       payload: post,
-      headers,
     },
   };
   return makeRequest(`${process.env.APP_BASE_API}/v1/query`, data);
