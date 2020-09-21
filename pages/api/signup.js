@@ -1,4 +1,5 @@
 import auth0 from 'lib/auth0';
+import createClient from 'lib/client';
 
 export default auth0.requireAuthentication(async function signup(req, res) {
   try {
@@ -26,32 +27,4 @@ async function checkAndRegisterUser(client) {
   const result = await client(CHECK_USER_QUERY, {});
   console.log(result);
   return result;
-}
-
-function createClient(req, res) {
-  async function client(query, variables) {
-    const tokenCache = await auth0.tokenCache(req, res);
-    const { accessToken } = await tokenCache.getAccessToken({
-      scope: ['openid', 'profile'],
-    });
-    try {
-      const result = await fetch(`${process.env.APP_BASE_API}/v1/graphql`, {
-        method: 'POST',
-        body: JSON.stringify({
-          query: query,
-          variables,
-        }),
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await result.json();
-      console.log(data);
-      return data;
-    } catch (error) {
-      throw error;
-    }
-  }
-  return client;
 }
