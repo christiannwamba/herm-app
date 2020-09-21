@@ -50,6 +50,7 @@ function Index({ me }) {
           ) : (
             <Box marginTop='19px'>
               {user &&
+                user.scheduled_posts &&
                 user.scheduled_posts.map((post) => (
                   <PostCard me={me} post={post} key={post.id} />
                 ))}
